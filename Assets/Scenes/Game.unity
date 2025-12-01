@@ -1051,8 +1051,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4b2ac0f4d769a419ead4ec62d2f435, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 1
+  scoreMultiplyer: 10
+  thrustForce: 7.5
   player_rb2d: {fileID: 1523344097}
+  uiDoc: {fileID: 640349236}
+  explosionEffect: {fileID: 4087065896154736923, guid: d6931d89faa8b334eaedf7bffd523db5, type: 3}
 --- !u!50 &1523344097
 Rigidbody2D:
   serializedVersion: 5
