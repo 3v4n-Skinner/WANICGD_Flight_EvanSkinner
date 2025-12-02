@@ -15,7 +15,8 @@ public class Player_Controller : MonoBehaviour
     private Button restartButton;
     private Label scoreLabel;
     public GameObject explosionEffect;
-    
+    public AudioClip asteroid_Collision;
+    public AudioSource rocketMoving;
     void Start()
     {
         scoreLabel = uiDoc.rootVisualElement.Q<Label>("ScoreLabel");
@@ -38,11 +39,22 @@ public class Player_Controller : MonoBehaviour
             Vector2 Direction = (mouse_pos - transform.position).normalized;
             transform.up = Direction;
             player_rb2d.AddForce(Direction * thrustForce * Time.deltaTime,ForceMode2D.Impulse);
+            
         }
+        if(Input.GetMouseButtonDown(0))
+        {
+            rocketMoving.Play();
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            rocketMoving.Stop();
+        }
+        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(asteroid_Collision,new Vector3());
         Instantiate(explosionEffect,transform.position, transform.rotation);
         restartButton.visible = true;
     }
