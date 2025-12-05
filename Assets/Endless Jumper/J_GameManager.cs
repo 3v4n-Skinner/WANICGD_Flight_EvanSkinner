@@ -52,7 +52,7 @@ public class J_GameManager : MonoBehaviour
 
 
     [Tooltip("Object refrence for Lose LoseCanvas")]
-    public RectTransform LoseCanvas;
+    public WinCanvas LoseCanvas;
 
     [Tooltip("Object refrence for Win LoseCanvas")]
     public WinCanvas WinCanvas;
@@ -105,9 +105,10 @@ public class J_GameManager : MonoBehaviour
     /// </summary>
     public static void Lose()
     {
+        instance.LoseCanvas.gameObject.SetActive(true);
+        instance.LoseCanvas.SetText(HighScore, Score);
+
         OnLose?.Invoke();
-        
-        throw new NotImplementedException("Loss condition not implmeneted. Loss code should go here.");
     }
 
     /// <summary>

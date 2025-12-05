@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 
 /* Class: PlatformControler
@@ -38,6 +39,21 @@ public class PlatformControler : MonoBehaviour
     [SerializeField] AudioPacket SFX_Land;
     [SerializeField] ParticleSystem VFX_Jump;
     [SerializeField] ParticleSystem VFX_Land;
+
+    [Category("Health and invulnerability vars")]
+    [SerializeField] static int lives = 3;
+    private bool invulnerability = false;
+    [SerializeField] float invulnTimer = 3f;
+    private Color color1 = new Color(255f / 225f, 25f / 225f, 161f / 225f, 1f);
+    private Color color2 = new Color(121f / 225f, 255f / 225f, 0, 1f);
+    private bool isColorOneActive = true;
+    private float colorTimeElap;
+    private float timeElap;
+    public AudioClip damage;
+    [SerializeField] UIDocument uiDoc;
+    private Label healthLabel;
+
+
     public static Action<Vector3> OnLand;
     float yDir;
 
@@ -51,7 +67,7 @@ public class PlatformControler : MonoBehaviour
         //Gets component refrences
         rb = GetComponent<Rigidbody2D>();
         gd = GetComponentInChildren<GroundDetector>();
-
+        healthLabel = uiDoc.rootVisualElement.Q<Label>();
         
         //Loads move sound
         SoundManager.PlayClip(SFX_Move);
@@ -60,7 +76,7 @@ public class PlatformControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        DamageTimer();
     }
 
     #region Motion
@@ -128,8 +144,17 @@ public class PlatformControler : MonoBehaviour
         //Damage from hazards
         if (collision.gameObject.CompareTag("Hazard"))
         {
-            throw new NotImplementedException("Damage not implemented. Damage logic should go here.");
-            J_GameManager.GameOver();
+            if(lives > 0 && invulnerability == false)
+            {
+                AudioSource.PlayClipAtPoint(damage, new Vector3());
+                lives -= 1;
+                healthLabel.text = "Lives: " + lives;
+                invulnerability = true;
+            }else if(lives <= 1 && invulnerability == false)
+            {
+                J_GameManager.GameOver();
+            }
+            
         }
         //Landing on a new platform
         else if (collision.gameObject.CompareTag("Collectable"))
@@ -137,7 +162,7 @@ public class PlatformControler : MonoBehaviour
             LandOnNew(collision);
         }
 
-        if (collision.contacts[0].normal.y > 0.9)
+        if (collision.contacts[0].normal.y > 0.9 && collision.transform.tag == "Collectable")
         {
             VFX_Land.Play();
             SFX_Land.Play();
@@ -160,6 +185,47 @@ public class PlatformControler : MonoBehaviour
         //Removes Collectable tag from object to prevent secondary collisions
         collision.gameObject.tag = "Untagged";
         OnLand?.Invoke(transform.position);
+    }
+
+    void DamageTimer()
+    {
+
+        if (invulnerability == true)
+        {
+            if (timeElap < invulnTimer)
+            {
+                timeElap += 1 * Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Done");
+                timeElap = 0;
+                transform.GetComponent<SpriteRenderer>().color = color1;
+                invulnerability = false;
+            }
+        }
+
+        if (invulnerability == true)
+        {
+            if (colorTimeElap < 1)
+            {
+                colorTimeElap += 2 * Time.deltaTime;
+            }
+            else
+            {
+                colorTimeElap = 0;
+                if (isColorOneActive)
+                {
+                    transform.GetComponent<SpriteRenderer>().color = color2;
+                    isColorOneActive = false;
+                }
+                else if (isColorOneActive == false)
+                {
+                    transform.GetComponent<SpriteRenderer>().color = color1;
+                    isColorOneActive = true;
+                }
+            }
+        }
     }
 }
 
