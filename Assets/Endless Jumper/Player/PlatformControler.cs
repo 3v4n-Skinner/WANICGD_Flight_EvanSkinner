@@ -41,7 +41,7 @@ public class PlatformControler : MonoBehaviour
     [SerializeField] ParticleSystem VFX_Land;
 
     [Category("Health and invulnerability vars")]
-    [SerializeField] static int lives = 3;
+    [SerializeField] int lives = 3;
     private bool invulnerability = false;
     [SerializeField] float invulnTimer = 3f;
     private Color color1 = new Color(255f / 225f, 25f / 225f, 161f / 225f, 1f);
@@ -86,6 +86,9 @@ public class PlatformControler : MonoBehaviour
     /// <param name="input">Input action event from Input System, does not use type.</param>
     public void GetJump(InputAction.CallbackContext input)
     {
+        //An if statment that checks if the jump action is preformed by the player
+        //and if they are on the ground(using the ground detector script)
+        //if those conditions are met it will apply a jump force to the player and does proper sound effects
         if (input.performed && gd.Grounded)
         {
             yDir = JumpForce;
@@ -141,9 +144,11 @@ public class PlatformControler : MonoBehaviour
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Damage from hazards
+        //Detects if a player touches a hazard
         if (collision.gameObject.CompareTag("Hazard"))
         {
+            //Checks if the player has lives left and if they have any invulnerability to damage
+            //Makes them lose a life if they don't have invulnerability but if they don't have any lives remaing it plays the game over
             if(lives > 0 && invulnerability == false)
             {
                 AudioSource.PlayClipAtPoint(damage, new Vector3());
@@ -156,12 +161,14 @@ public class PlatformControler : MonoBehaviour
             }
             
         }
+
         //Landing on a new platform
         else if (collision.gameObject.CompareTag("Collectable"))
         {
             LandOnNew(collision);
         }
 
+        //Checks if the contact point is the top if so plays vfx and sfx
         if (collision.contacts[0].normal.y > 0.9 && collision.transform.tag == "Collectable")
         {
             VFX_Land.Play();
@@ -187,9 +194,10 @@ public class PlatformControler : MonoBehaviour
         OnLand?.Invoke(transform.position);
     }
 
+   
     void DamageTimer()
     {
-
+        //This part of the script handles how long the players invulnerability and ends it after a controlled amount of time
         if (invulnerability == true)
         {
             if (timeElap < invulnTimer)
@@ -205,6 +213,7 @@ public class PlatformControler : MonoBehaviour
             }
         }
 
+        //This part is handling the colors that the player flashes trying to let the player know something has change/the player has invulnerability
         if (invulnerability == true)
         {
             if (colorTimeElap < 1)

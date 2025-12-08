@@ -64,10 +64,11 @@ public class J_GameManager : MonoBehaviour
         {
             instance = this;
         }
-
+        
         //Loads HighScore from playerprefs
         HighScore = PlayerPrefs.GetInt(HighScoreKey);
         Debug.Log($"Loading High Score: {HighScore}");
+
     }
 
     // Update is called once per frame
@@ -103,10 +104,14 @@ public class J_GameManager : MonoBehaviour
     /// <summary>
     /// Called on GameOver when a new high score is not achieved
     /// </summary>
+    /// 
+    //Lets activate the lose screen by setting it to active and showing the players high score compared to there score
+    //Its almost identical to the win screen
     public static void Lose()
     {
         instance.LoseCanvas.gameObject.SetActive(true);
         instance.LoseCanvas.SetText(HighScore, Score);
+        
 
         OnLose?.Invoke();
     }
