@@ -17,7 +17,7 @@ public class PauseMenu : MonoBehaviour
         //Checks if the right key was hit to pause the game and uses a bool to prevent it from being activated multiple times
         if (Input.GetKeyDown(KeyCode.Escape) && pressed)
         {
-            pauseCanvas.SetActive(!pauseCanvas.active);
+            pauseCanvas.SetActive(!pauseCanvas.activeSelf);
             pressed = false;
 
             //Stops the physics of the game from running
@@ -28,9 +28,26 @@ public class PauseMenu : MonoBehaviour
             {
                 Time.timeScale = 0;
             }
-        } else if (Input.GetKeyUp(KeyCode.Escape))
+        }//letting go of the escape key makes it so your able to activate or deactivate the pause menu again 
+        else if (Input.GetKeyUp(KeyCode.Escape))
         {
             pressed = true;
+        }
+    }
+
+    //Special resume from the pause menu
+    public void resumeButton()
+    {
+        pauseCanvas.SetActive(!pauseCanvas.activeSelf);
+
+        //Stops the physics of the game from running
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+        else if (Time.timeScale == 1)
+        {
+            Time.timeScale = 0;
         }
     }
 }

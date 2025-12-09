@@ -24,17 +24,20 @@ public class MenuScripts : MonoBehaviour
         Time.timeScale = 1;
         
     }
+
+    //This unhides the credits and hides the menu
     public void showCredits()
     {
         credits.SetActive(true);
         mainMenu.SetActive(false);
     }
+    //This hides the credits and unhides the menu
     public void loadMenu()
     {
         credits.SetActive(false);
         mainMenu.SetActive(true);
     }
-    //Ends the app
+    //Ends the game
     public void quitApp()
     {
         Application.Quit();
