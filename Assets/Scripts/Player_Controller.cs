@@ -40,19 +40,19 @@ public class Player_Controller : MonoBehaviour
         elapsedTime += Time.deltaTime;
         score = Mathf.FloorToInt(elapsedTime * scoreMultiplyer);
         scoreLabel.text = ("Score: " + score);
-
+        
         if (Mouse.current.leftButton.isPressed)
         {
-            //Calculate mouse direction and moves the rocket
-            Vector3 mouse_pos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-            Vector2 Direction = (mouse_pos - transform.position).normalized;
-            transform.up = Direction;
-            player_rb2d.AddForce(Direction * thrustForce * Time.deltaTime, ForceMode2D.Impulse);
+                //Calculate mouse direction and moves the rocket
+                Vector3 mouse_pos = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+                Vector2 Direction = (mouse_pos - transform.position).normalized;
+                transform.up = Direction;
+                player_rb2d.AddForce(Direction * thrustForce * Time.deltaTime, ForceMode2D.Impulse);
         }
 
         //Plays the rocket thrusting sound when the player clicks down
         RocketSFX();
-
+        
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
