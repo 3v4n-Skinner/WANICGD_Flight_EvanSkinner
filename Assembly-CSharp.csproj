@@ -71,6 +71,7 @@
     <Compile Include="Assets\UI Assets\ConformationOfDestructiveAction.cs" />
     <Compile Include="Assets\Endless Jumper\Player\GroundDetector.cs" />
     <Compile Include="Assets\Utility\Lottery.cs" />
+    <Compile Include="Assets\Scripts\MenuScripts.cs" />
     <Compile Include="Assets\UI Assets\WinCanvas.cs" />
     <Compile Include="Assets\Endless Jumper\Enemies\J_EnemyControler.cs" />
     <Compile Include="Assets\Utility\CameraFollow.cs" />
