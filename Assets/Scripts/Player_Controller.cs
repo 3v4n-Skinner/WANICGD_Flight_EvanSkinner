@@ -28,6 +28,7 @@ public class Player_Controller : MonoBehaviour
     private bool rocketActive;
     void Start()
     {
+        //Grabs important UI for the game
         scoreLabel = uiDoc.rootVisualElement.Q<Label>("ScoreLabel");
         restartButton = uiDoc.rootVisualElement.Q<Button>("RestartButton");
         restartButton.clicked += ReloadScene;

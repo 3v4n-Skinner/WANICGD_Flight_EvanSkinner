@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 /* Class: J_PlatformSpawner
  * Original Author: Zev S.
  * Contributers: [Your Name]
