@@ -31,6 +31,8 @@ public class Player_Controller : MonoBehaviour
         //Grabs important UI for the game
         scoreLabel = uiDoc.rootVisualElement.Q<Label>("ScoreLabel");
         restartButton = uiDoc.rootVisualElement.Q<Button>("RestartButton");
+
+        //Adds the restart method to the restart button from this script
         restartButton.clicked += ReloadScene;
         restartButton.visible = false;
     }
